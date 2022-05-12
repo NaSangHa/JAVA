@@ -1,4 +1,4 @@
-package Codeup_1026;
+package Codeup_1029;
 
 import java.util.Scanner;
 
@@ -9,11 +9,9 @@ public class Main
 	{
 		Scanner sc = new Scanner(System.in);
 
-		String[] arr = sc.nextLine().split(".");
-		
-		int min = Integer.parseInt(arr[1]);
+		double num = sc.nextDouble();
 
-		System.out.printf("%d", min);
+		System.out.printf("%.11f", num);
 
 	}
 
