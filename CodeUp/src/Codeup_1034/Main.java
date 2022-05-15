@@ -10,26 +10,10 @@ public class Main
 		Scanner sc = new Scanner(System.in);
 
 		String str = sc.nextLine();
-		String[] arr = str.split("");
-		int[] arr_int = new int[str.length()];
-		int result = 0;
 
-		for (int i = 0; i < str.length(); i++)
-		{
-			arr_int[i] = Integer.parseInt(arr[i]);
+		int a = Integer.parseInt(str, 8);
 
-			for (int j = 0; j < str.length() - (1 + i); j++)
-			{
-				arr_int[i] *= 8;
-			}
-
-
-		}
-
-		for (int e : arr_int)
-		{
-			result += e;
-		}
+		System.out.println(a);
 	}
 
 }

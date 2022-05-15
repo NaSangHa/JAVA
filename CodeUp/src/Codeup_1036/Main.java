@@ -1,4 +1,4 @@
-package Codeup_1035;
+package Codeup_1036;
 
 import java.util.Scanner;
 
@@ -10,10 +10,11 @@ public class Main
 		Scanner sc = new Scanner(System.in);
 
 		String str = sc.nextLine();
-
-		int a = Integer.parseInt(str, 16);
-
-		System.out.printf("%o",a);
+		
+		char c = str.charAt(0);
+		
+		
+		System.out.println((int)c);
 	}
 
 }
