@@ -18,7 +18,7 @@ public class Member_DAO
 	DataSource dataSource = null;
 	
 	public static final int MEMBERS_LOGIN_SUCCESS = 1;
-	public static final int MEMBERS_LOGIN_FAIL = 1;
+	public static final int MEMBERS_LOGIN_FAIL = 0;
 	public static final int ID_DOUBLE = 0;
 	public static final int ID_NOT_DOUBLE = 1;
 
@@ -84,6 +84,57 @@ public class Member_DAO
 		return ri;
 	}
 
+	public int pwCheck(String id, String pw)
+	{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+
+		try
+		{
+			con = dataSource.getConnection();
+			
+			String query = "select pw from members where id = ?";
+			
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, id);
+			resultSet = pstmt.executeQuery();
+			
+			if(resultSet.next())
+			{
+				String upw = resultSet.getString("pw");
+				
+				if(upw.equals(pw)) 
+				{
+					System.out.println("[Test] 비밀번호가 일치합니다.");
+					
+					return MEMBERS_LOGIN_SUCCESS;
+				}
+				
+			}
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(resultSet != null) resultSet.close();
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return MEMBERS_LOGIN_FAIL;
+	}
+	
 	public Member_DTO loginMember(String uid)
 	{
 
@@ -192,5 +243,48 @@ public class Member_DAO
 		}
 		
 		return ID_NOT_DOUBLE;
+	}
+
+	public void myInfoModify(String id, String pw, String name, String phone, String eMail)
+	{
+		int ri = 0;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try
+		{
+			System.out.println("[Test] MyInfo 수정 입장하였습니다.");
+			
+			String query = "update members set pw = ?, name = ?, phone = ?, eMail = ? where id = ?";
+			
+			con = dataSource.getConnection();
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, pw);
+			pstmt.setString(2, name);
+			pstmt.setString(3, phone);
+			pstmt.setString(4, eMail);
+			pstmt.setString(5, id);
+
+			ri = pstmt.executeUpdate();
+			
+			System.out.println("[Test] MyInfo 수정에 성공하였습니다.");
+
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			try
+			{
+				if (pstmt != null)
+					pstmt.close();
+				if (con != null)
+					con.close();
+			} catch (Exception e2)
+			{
+				e2.printStackTrace();
+			}
+		}
 	}
 }

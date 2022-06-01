@@ -18,16 +18,6 @@ $(document).ready(function()
 	            $('#notice_write').attr('style', "display:none;");
            	}
         });
-        
-function check_search_form() {
-	if ($('#search_content').val().length == 0) {
-		alert("검색어를 입력해주세요.");
-		$('#search_content').focus();
-		return;
-	}
-	
-	$("#search_form").submit();
-}
 </script>
 
 </head>
@@ -85,7 +75,7 @@ function check_search_form() {
 			    </tr>
 			  </thead>
 			  
-			  <c:forEach items="${list}" var="dto">
+			  <c:forEach items="${slist}" var="dto">
 			  <tbody>
 			    <tr>
 			      <th scope="row">${dto.bId}</th>

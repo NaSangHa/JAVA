@@ -13,21 +13,8 @@
 <script>
 $(document).ready(function()
         {
-            if(<%= session.getAttribute("member_dto_grade") %> != '5')
-           	{
-	            $('#notice_write').attr('style', "display:none;");
-           	}
+
         });
-        
-function check_search_form() {
-	if ($('#search_content').val().length == 0) {
-		alert("검색어를 입력해주세요.");
-		$('#search_content').focus();
-		return;
-	}
-	
-	$("#search_form").submit();
-}
 </script>
 
 </head>
@@ -55,7 +42,7 @@ function check_search_form() {
 	    <a class="nav-link text-muted" href="notice.board"><h4>공지사항</h4></a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="freeBoard.board?page=1"><h4>자유게시판</h4></a>
+	    <a class="nav-link text-muted" href="freeBoard.board"><h4>자유게시판</h4></a>
 	  </li>
 	  <li class="nav-item">
 	    <a class="nav-link text-muted" href="#"><h4>Menu3</h4></a>
@@ -69,7 +56,7 @@ function check_search_form() {
 	<div class="container">
 	  <div class="row justify-content-center text-center">
 	    <div class="col-12">
-	      <button type="button" class="btn btn-secondary btn-lg btn-block">공지사항</button><br>
+	      <button type="button" class="btn btn-secondary btn-lg btn-block">자유게시판</button><br>
 	    </div>
 	  </div>
 	  <div class="row justify-content-center text-center">
@@ -85,45 +72,26 @@ function check_search_form() {
 			    </tr>
 			  </thead>
 			  
-			  <c:forEach items="${list}" var="dto">
+			  <c:forEach items="${list}" var="fdto">
 			  <tbody>
 			    <tr>
-			      <th scope="row">${dto.bId}</th>
-			      <td>${dto.bName}</td>
-			      <td><a href="notice_view.board?bId=${dto.bId}" >${dto.bTitle}</a></td>
-			      <td>${fn:substring(dto.bDate, 0, 16)}</td>
-			      <td>${dto.bHit}</td>
+			      <th scope="row">${fdto.fbId}</th>
+			      <td>${fdto.fbName}</td>
+			      <td><a href="freeBoard_view.board?fbId=${fdto.fbId}" >${fdto.fbTitle}</a></td>
+			      <td>${fn:substring(fdto.fbDate, 0, 16)}</td>
+			      <td>${fdto.fbHit}</td>
 			    </tr>
 			  </tbody>
         	  </c:forEach>
 			</table>	
 	    </div>
 	  </div>
-	</div>
-	
-	<div class="container">
   	  <div class="row justify-content-end text-center">
 	  	<div class="col-2">
-	  		<button type="button" id="notice_write" class="btn btn-secondary" onclick="javascript:window.location='notice_write.jsp'" >글 작성</button><br>
+	  		<button type="button" id="notice_write" class="btn btn-secondary" onclick="javascript:window.location='freeBoard_write.jsp'" >글 작성</button>
 		</div>
 	  </div>	  
 	</div>
-	
-	<div class="container">
-		<form id="search_form" name="search_form" action="search_notice.board" method="post">
-  		<div class="row justify-content-center text-center">
-  			<div class="col-10">
-				<select name="search_method" class="">
-                  <option id="search_method" value="bTitle" selected>제목</option>
-                  <option id="search_method" value="bName">작성자</option>
-                  <option id="search_method" value="bContent">내용</option>
-                </select>
-				<input type="text" class="" id="search_content" name="search_content" placeholder="검색">
-				<button type="button" id="notice_write" class="btn btn-secondary" onclick="check_search_form()" >검색</button><br>
-  			</div>
-    	</div>
-		</form>
-    </div>	
 	
   	<div class="container">
   		<div class="row justify-content-center text-center">
@@ -139,7 +107,7 @@ function check_search_form() {
 		                </c:when>
 		                <c:otherwise>
 		                    <!-- <a href="notice.board?page=1">[처음으로]</a> -->
-		                    <a class="page-link col-1 text-center" href="notice.board?page=1"><<</a>
+		                    <a class="page-link col-1 text-center" href="freeBoard.board?page=1"><<</a>
 		                </c:otherwise>
 	                </c:choose>
 	                &nbsp;&nbsp;
@@ -151,7 +119,7 @@ function check_search_form() {
 	                </c:when>
 	                <c:otherwise>
 	                    <%-- <a href="notice.board?page=${page.curPage-1}">[뒤로]</a> --%>
-	                    <a class="page-link col-1 text-center" href="notice.board?page=${page.curPage-1}"><</a>
+	                    <a class="page-link col-1 text-center" href="freeBoard.board?page=${page.curPage-1}"><</a>
 	                </c:otherwise>
 	                </c:choose>
 	    			&nbsp;&nbsp;
@@ -166,7 +134,7 @@ function check_search_form() {
 	                    
 	                    <c:otherwise>
 	                        <%-- <a href="notice.board?page=${fEach}">[${fEach}]</a> --%>
-	                        <a class="page-link active" href="notice.board?page=${fEach}">${fEach} <span class="sr-only">(current)</span></a>
+	                        <a class="page-link active" href="freeBoard.board?page=${fEach}">${fEach} <span class="sr-only">(current)</span></a>
 	                    </c:otherwise>
 	                    </c:choose>
 	                </c:forEach>
@@ -179,7 +147,7 @@ function check_search_form() {
 	                </c:when>
 	                <c:otherwise>
 	                    <%-- <a href="notice.board?page=${page.curPage + 1}">[다음]</a> --%>
-	                    <a class="page-link col-1 text-center" href="notice.board?page=${page.curPage + 1}">></a>
+	                    <a class="page-link col-1 text-center" href="freeBoard.board?page=${page.curPage + 1}">></a>
 	                </c:otherwise>
 	                </c:choose>
 	    			&nbsp;&nbsp;
@@ -191,7 +159,7 @@ function check_search_form() {
 	                </c:when>
 	                <c:otherwise>
 	                   <%--  <a href="notice.board?page=${page.totalPage}">[끝으로]</a> --%>
-	                    <a class="page-link col-1 text-center" href="notice.board?page=${page.totalPage}">>></a>
+	                    <a class="page-link col-1 text-center" href="freeBoard.board?page=${page.totalPage}">>></a>
 	                </c:otherwise>
 	                </c:choose>
 	            </td>
@@ -199,7 +167,11 @@ function check_search_form() {
 		  </table>
     	</div>
     	</div>	  
-  	</div>			
+  	</div>	
+
+
+
+		
 	
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

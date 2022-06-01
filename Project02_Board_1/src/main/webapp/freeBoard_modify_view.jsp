@@ -11,22 +11,11 @@
 <title>로그인</title>
 <script src="http://code.jquery.com/jquery.js"></script>
 <script>
-
-function check_write() {
+function submit_modify() {
 	
-	if ($('#bTitle').val().length == 0) {
-		alert("제목은 필수사항입니다.");
-		$('#bTitle').focus();
-		return;
-	}
-	
-	submit_write();
-}
-function submit_write() {
-	
-	var queryString = $('#notice_write').serialize();
+	var queryString = $('#freeBoard_modify').serialize();
 	$.ajax({
-		url : '/Project02_Board_1/notice_write.board',
+		url : '/Project02_Board_1/freeBoard_modify.board',
 		type : 'POST',
 		data : queryString,
 		dataType : 'text',
@@ -36,7 +25,7 @@ function submit_write() {
 
 			if (result.code == "success") {
 				alert(result.desc);
-				window.location.replace("notice.board?page=1");
+				window.location.replace("freeBoard_view.board?fbId="+${freeBoard_view.fbId});
 			} else {
 				alert(result.desc);
 			}
@@ -88,35 +77,50 @@ function submit_write() {
 	  </div>
 	  <div class="row justify-content-center text-center">
 	    <div class="col-12">
-	    	<form id="notice_write" name="notice_write">
+	    	<form id="freeBoard_modify" name="freeBoard_modify">
+	    	    <input type="hidden" name="fbId" value="${freeBoard_view.fbId}">
+	    	    <input type="hidden" name="fbName" value="${freeBoard_view.fbName}">
+	    	    <%-- <input type="hidden" name="fbTitle" value="${freeBoard_view.fbTitle}"> --%>
+	    	    <%-- <input type="hidden" name="fbContent" value="${freeBoard_view.fbContent}"> --%>
+	    	    <input type="hidden" name="fbDate" value="${freeBoard_view.fbDate}">
+	    	    <input type="hidden" name="fbHit" value="${freeBoard_view.fbHit}">
+	    	    <input type="hidden" name="fbGroup" value="${freeBoard_view.fbGroup}">
+	    	    <input type="hidden" name="fbStep" value="${freeBoard_view.fbStep}">
+	    	    <%-- <input type="hidden" name="fbFile" value="${freeBoard_view.fbFile}"> --%>
+	    	    <input type="hidden" name="fbLike" value="${freeBoard_view.fbLike}">
+	    	    <input type="hidden" name="fbHate" value="${freeBoard_view.fbHate}">
+
 				<table class="table col-12 justify-content-center">
-				<input type="hidden" id="bName" name="bName" value="<%= session.getAttribute("member_dto_name") %>"/>
 				  <thead class="">
 				    <tr>
-				      <th scope="col" colspan=2><button type="button" class="btn btn-secondary btn-lg btn-block" disable="disable">글 작성</button></th>
+				      <th scope="col" colspan=2><button type="button" class="btn btn-secondary btn-lg btn-block" disable="disable">공지사항</button></th>
 				    </tr>
 				  </thead>			
 				  <tbody>
 				    <tr>
+				        <th class="col-2" scope="row">번호</td>
+				        <td class="col-6">${freeBoard_view.fbId}</td>
+				    </tr>
+				    <tr>
 				        <th class="col-2" scope="row">작성자</td>
-				        <td class="col-6"><%= session.getAttribute("member_dto_name") %></td>
+				        <td class="col-6">${freeBoard_view.fbName}</td>
 				    </tr>
 				    <tr>
 				        <th class="col-2" scope="row">제목</td>
 				        <th class="col-6">
-				        	<input type="text" class="form-control" id="bTitle" name="bTitle" size="30"/>
+				        	<input type="text" class="form-control" id="fbTitle" name="fbTitle" value="${freeBoard_view.fbTitle}" size="30"/>
 				        </td>
 				    </tr>
 				    <tr>
 				        <th class="col-2" scope="row">첨부파일</td>
 				        <th class="col-6">
-					        <input type="file" class="form-control" id="bFile" name="bFile" size="30"/>
+					        <input type="file" class="form-control" id="fbFile" name="fbFile" value="${freeBoard_view.fbFile}" size="30"/>
 				        </td>
 				    </tr>
 				    <tr>
 				        <th class="col-2" scope="row">내용</td>
 				        <th class="col-6">
-					        <textarea name="bContent" id="bContent" rows="10" cols="100">${notice_view.bContent}</textarea>
+					        <textarea name="fbContent" id="fbContent" rows="10" cols="100">${freeBoard_view.fbContent}</textarea>
 				        </td>
 				    </tr>
 				  </tbody>
@@ -125,12 +129,9 @@ function submit_write() {
 	    </div>
 	  </div>
 	  <hr>
-	  <div class="row justify-content-between text-center">
+	  <div class="row justify-content-end text-center">
 		  <div class="col-2">
-		  	<button type="button" class="btn btn-secondary" onclick="javascript:window.location='notice.board?page=<%= session.getAttribute("cpage") %>'">취소</button>	
-		  </div>
-		  <div class="col-2">
-		  	<button type="button" class="btn btn-secondary" onclick="check_write()">등록</button>	
+		  	<button type="button" class="btn btn-dark" onclick="submit_modify()">수정완료</button>	
 		  </div>
 	  </div>
 	</div>

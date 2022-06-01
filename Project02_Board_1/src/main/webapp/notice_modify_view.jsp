@@ -44,23 +44,28 @@ function submit_modify() {
 		<div class="justify-content-end">
 			<img src="./img/profile.png" width="30" height="30" class="d-inline-block justify-content-end align-items-center" alt="">&nbsp;	
   	  		<div class="d-inline-block justify-content-end align-items-center">
-	  	  		<%= session.getAttribute("member_dto_name") %> 님 반갑습니다!
+	  	  		<%= session.getAttribute("member_dto_id") %> 님 반갑습니다. &nbsp;
+	  	  		<button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:window.location='myInfo.member?id=<%= session.getAttribute("member_dto_id") %>'">내정보</button>&nbsp;
+	  	  		<button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:window.location='logout.jsp'">로그아웃</button>
   	  		</div>
 		</div>  
 	</nav>
 	
 	<ul class="nav justify-content-center">
 	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="#">공지사항</a>
+	    <a class="nav-link text-muted" href="main.jsp"><h4>홈</h4></a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="#">자유게시판</a>
+	    <a class="nav-link text-muted" href="notice.board"><h4>공지사항</h4></a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="#">Menu3</a>
+	    <a class="nav-link text-muted" href="freeBoard.board?page=1"><h4>자유게시판</h4></a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="#">Menu4</a>
+	    <a class="nav-link text-muted" href="#"><h4>Menu3</h4></a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link text-muted" href="#"><h4>Menu4</h4></a>
 	  </li>
 	</ul>
 	<hr>

@@ -11,40 +11,21 @@
 <title>로그인</title>
 <script src="http://code.jquery.com/jquery.js"></script>
 <script>
-
-function check_write() {
-	
-	if ($('#bTitle').val().length == 0) {
-		alert("제목은 필수사항입니다.");
-		$('#bTitle').focus();
-		return;
-	}
-	
-	submit_write();
-}
-function submit_write() {
-	
-	var queryString = $('#notice_write').serialize();
-	$.ajax({
-		url : '/Project02_Board_1/notice_write.board',
-		type : 'POST',
-		data : queryString,
-		dataType : 'text',
-		success : function(json) {
-
-			var result = JSON.parse(json);
-
-			if (result.code == "success") {
-				alert(result.desc);
-				window.location.replace("notice.board?page=1");
-			} else {
-				alert(result.desc);
-			}
-		}
-	});
-}
+$(document).ready(function()
+        {
+	 		
+            if("${freeBoard_view.fbName}" != "<%= session.getAttribute("member_dto_name") %>")
+           	{	
+           	
+	            if("<%= session.getAttribute("member_dto_name") %>" != '관리자')
+	            {
+	            	// alert("작성자가 관리가가 아니며 다릅니다.")
+	            	$('#fb_modify_btn').attr('style', "display:none;");
+		            $('#fb_delete_btn').attr('style', "display:none;");            		     
+	            }
+           	}
+        });
 </script>
-
 </head>
 <body>
 	<nav class="navbar navbar-light">
@@ -88,49 +69,45 @@ function submit_write() {
 	  </div>
 	  <div class="row justify-content-center text-center">
 	    <div class="col-12">
-	    	<form id="notice_write" name="notice_write">
-				<table class="table col-12 justify-content-center">
-				<input type="hidden" id="bName" name="bName" value="<%= session.getAttribute("member_dto_name") %>"/>
-				  <thead class="">
-				    <tr>
-				      <th scope="col" colspan=2><button type="button" class="btn btn-secondary btn-lg btn-block" disable="disable">글 작성</button></th>
-				    </tr>
-				  </thead>			
-				  <tbody>
-				    <tr>
-				        <th class="col-2" scope="row">작성자</td>
-				        <td class="col-6"><%= session.getAttribute("member_dto_name") %></td>
-				    </tr>
-				    <tr>
-				        <th class="col-2" scope="row">제목</td>
-				        <th class="col-6">
-				        	<input type="text" class="form-control" id="bTitle" name="bTitle" size="30"/>
-				        </td>
-				    </tr>
-				    <tr>
-				        <th class="col-2" scope="row">첨부파일</td>
-				        <th class="col-6">
-					        <input type="file" class="form-control" id="bFile" name="bFile" size="30"/>
-				        </td>
-				    </tr>
-				    <tr>
-				        <th class="col-2" scope="row">내용</td>
-				        <th class="col-6">
-					        <textarea name="bContent" id="bContent" rows="10" cols="100">${notice_view.bContent}</textarea>
-				        </td>
-				    </tr>
-				  </tbody>
-				</table> 
-	    	</form>
+			<table class="table col-12 justify-content-center">
+			  <thead class="">
+			    <tr>
+			      <th scope="col" colspan=2><button type="button" class="btn btn-secondary btn-lg btn-block" disable="disable">게시글</button></th>
+			    </tr>
+			  </thead>			
+			  <tbody>
+			    <tr>
+			        <th class="col-2" scope="row">번호</td>
+			        <td class="col-6">${freeBoard_view.fbId}</td>
+			    </tr>
+			    <tr>
+			        <th class="col-2" scope="row">작성자</td>
+			        <td class="col-6">${freeBoard_view.fbName}</td>
+			    </tr>
+			    <tr>
+			        <th class="col-2" scope="row">제목</td>
+			        <td class="col-6">${freeBoard_view.fbTitle}</td>
+			    </tr>
+			    <tr>
+			        <th class="col-2" scope="row">첨부파일</td>
+			        <td class="col-6">${freeBoard_view.fbFile}</td>
+			    </tr>
+			    <tr>
+			        <th class="col-2" scope="row">내용</td>
+			        <td class="col-6">${freeBoard_view.fbContent}</td>
+			    </tr>
+			  </tbody>
+			</table> 
 	    </div>
 	  </div>
 	  <hr>
 	  <div class="row justify-content-between text-center">
-		  <div class="col-2">
-		  	<button type="button" class="btn btn-secondary" onclick="javascript:window.location='notice.board?page=<%= session.getAttribute("cpage") %>'">취소</button>	
+		  <div class="col-2">	
+			<button type="button" class="btn btn-secondary justify-content-start" onclick="javascript:window.location='freeBoard.board?page=<%= session.getAttribute("cpage") %>'">목록</button>	
 		  </div>
-		  <div class="col-2">
-		  	<button type="button" class="btn btn-secondary" onclick="check_write()">등록</button>	
+		  <div class="col-3">	
+		  	<button type="button" id="fb_modify_btn" class="btn btn-secondary" onclick="javascript:window.location='freeBoard_modify_view.board?fbId=${freeBoard_view.fbId}'">수정</button>	
+		  	<button type="button" id="fb_delete_btn" class="btn btn-secondary" onclick="javascript:window.location='freeBoard_delete.board?fbId=${freeBoard_view.fbId}'">삭제</button>	
 		  </div>
 	  </div>
 	</div>

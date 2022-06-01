@@ -14,9 +14,9 @@
 
 function check_write() {
 	
-	if ($('#bTitle').val().length == 0) {
+	if ($('#fbTitle').val().length == 0) {
 		alert("제목은 필수사항입니다.");
-		$('#bTitle').focus();
+		$('#fbTitle').focus();
 		return;
 	}
 	
@@ -24,9 +24,9 @@ function check_write() {
 }
 function submit_write() {
 	
-	var queryString = $('#notice_write').serialize();
+	var queryString = $('#freeBoard_write').serialize();
 	$.ajax({
-		url : '/Project02_Board_1/notice_write.board',
+		url : '/Project02_Board_1/freeBoard_write.board',
 		type : 'POST',
 		data : queryString,
 		dataType : 'text',
@@ -36,7 +36,7 @@ function submit_write() {
 
 			if (result.code == "success") {
 				alert(result.desc);
-				window.location.replace("notice.board?page=1");
+				window.location.replace("freeBoard.board?page= <%= session.getAttribute("cpage") %>");
 			} else {
 				alert(result.desc);
 			}
@@ -88,9 +88,9 @@ function submit_write() {
 	  </div>
 	  <div class="row justify-content-center text-center">
 	    <div class="col-12">
-	    	<form id="notice_write" name="notice_write">
+	    	<form id="freeBoard_write" name="freeBoard_write">
 				<table class="table col-12 justify-content-center">
-				<input type="hidden" id="bName" name="bName" value="<%= session.getAttribute("member_dto_name") %>"/>
+				<input type="hidden" id="fbName" name="fbName" value="<%= session.getAttribute("member_dto_name") %>"/>
 				  <thead class="">
 				    <tr>
 				      <th scope="col" colspan=2><button type="button" class="btn btn-secondary btn-lg btn-block" disable="disable">글 작성</button></th>
@@ -104,19 +104,19 @@ function submit_write() {
 				    <tr>
 				        <th class="col-2" scope="row">제목</td>
 				        <th class="col-6">
-				        	<input type="text" class="form-control" id="bTitle" name="bTitle" size="30"/>
+				        	<input type="text" class="form-control" id="fbTitle" name="fbTitle" size="30"/>
 				        </td>
 				    </tr>
 				    <tr>
 				        <th class="col-2" scope="row">첨부파일</td>
 				        <th class="col-6">
-					        <input type="file" class="form-control" id="bFile" name="bFile" size="30"/>
+					        <input type="file" class="form-control" id="fbFile" name="fbFile" size="30"/>
 				        </td>
 				    </tr>
 				    <tr>
 				        <th class="col-2" scope="row">내용</td>
 				        <th class="col-6">
-					        <textarea name="bContent" id="bContent" rows="10" cols="100">${notice_view.bContent}</textarea>
+					        <textarea name="fbContent" id="fbContent" rows="10" cols="100"></textarea>
 				        </td>
 				    </tr>
 				  </tbody>
@@ -127,7 +127,7 @@ function submit_write() {
 	  <hr>
 	  <div class="row justify-content-between text-center">
 		  <div class="col-2">
-		  	<button type="button" class="btn btn-secondary" onclick="javascript:window.location='notice.board?page=<%= session.getAttribute("cpage") %>'">취소</button>	
+		  	<button type="button" class="btn btn-secondary" onclick="javascript:window.location='freeBoard.board?page=<%= session.getAttribute("cpage") %>'">취소</button>	
 		  </div>
 		  <div class="col-2">
 		  	<button type="button" class="btn btn-secondary" onclick="check_write()">등록</button>	

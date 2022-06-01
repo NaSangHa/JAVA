@@ -8,17 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.study.jsp.dao.Board_DAO;
+import com.study.jsp.dao.FreeBoard_DAO;
 import com.study.jsp.dto.BPageInfo;
-import com.study.jsp.dto.Board_DTO;
+import com.study.jsp.dto.FreeBoard_DTO;
 
-public class BNoticeCommand implements BCommand
+public class BFreeBoardCommand implements BCommand
 {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException
 	{
-		System.out.println("[test] BNoticeCommand 입장");
+		System.out.println("[test] BFreeBoardCommand 입장");
 		
 		int nPage = 1;
 		try
@@ -31,8 +31,8 @@ public class BNoticeCommand implements BCommand
 			e.printStackTrace();
 		}
 		
-		Board_DAO board_dao = Board_DAO.getInstance();
-		BPageInfo pinfo = board_dao.articlePage(nPage);
+		FreeBoard_DAO free_board_dao = FreeBoard_DAO.getInstance();
+		BPageInfo pinfo = free_board_dao.articlePage(nPage);
 		request.setAttribute("page", pinfo);		
 		nPage = pinfo.getCurPage();	// 현재 페이지
 		
@@ -42,10 +42,10 @@ public class BNoticeCommand implements BCommand
 		session = request.getSession();
 		session.setAttribute("cpage", nPage);
 		
-		ArrayList<Board_DTO> Board_dtos = board_dao.list(nPage);
-		request.setAttribute("list", Board_dtos);
+		ArrayList<FreeBoard_DTO> Free_Board_dtos = free_board_dao.list(nPage);
+		request.setAttribute("list", Free_Board_dtos);
 		
-		System.out.println("[test] Board_dtos: " + Board_dtos);
+		System.out.println("[test] Board_dtos: " + Free_Board_dtos);
 	}
 
 }

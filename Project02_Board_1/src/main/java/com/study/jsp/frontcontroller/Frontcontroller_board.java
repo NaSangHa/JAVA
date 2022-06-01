@@ -13,8 +13,15 @@ import javax.servlet.http.HttpSession;
 
 import com.study.jsp.Bcommand.BCommand;
 import com.study.jsp.Bcommand.BCommand_Int;
+import com.study.jsp.Bcommand.BFreeBoardCommand;
+import com.study.jsp.Bcommand.BFreeBoardDeleteCommand;
+import com.study.jsp.Bcommand.BFreeBoardModifyCommand;
+import com.study.jsp.Bcommand.BFreeBoardViewCommand;
+import com.study.jsp.Bcommand.BFreeBoardWriteCommand;
 import com.study.jsp.Bcommand.BNoticeCommand;
+import com.study.jsp.Bcommand.BNoticeDeleteCommand;
 import com.study.jsp.Bcommand.BNoticeModifyCommand;
+import com.study.jsp.Bcommand.BNoticeSearchCommand;
 import com.study.jsp.Bcommand.BNoticeViewCommand;
 import com.study.jsp.Bcommand.BNoticeWriteCommand;
 
@@ -77,9 +84,6 @@ public class Frontcontroller_board extends HttpServlet
 			command = new BNoticeCommand();
 			command.execute(request, response);
 
-//			String json_data = "{\"code\" : \"success\", \"desc\" : \"회원가입에 성공하였습니다.\"}";
-//			sendJson(response, json_data);
-
 			viewPage = "notice.jsp";
 		} 
 		else if (com.equals("/notice_view.board")) // notice_view.board
@@ -119,7 +123,79 @@ public class Frontcontroller_board extends HttpServlet
 			String json_data = "{\"code\" : \"success\", \"desc\" : \"등록에 성공하였습니다.\"}";
 			sendJson(response, json_data);
 		} 
-
+		else if (com.equals("/notice_delete.board")) // notice_delete.board
+		{
+			System.out.println("[확인] : notice_delete.board");
+			command = new BNoticeDeleteCommand();
+			command.execute(request, response);
+			
+			viewPage = "notice.board?page=" + session.getAttribute("cpage");
+		} 
+		else if (com.equals("/search_notice.board")) // search_notice.board
+		{
+			System.out.println("[확인] : search_notice.board");
+			command = new BNoticeSearchCommand();
+			command.execute(request, response);
+						
+			viewPage = "notice_searchResult.jsp";
+		} 
+		//-----------------------------------------------------------------------
+		else if (com.equals("/freeBoard.board")) // freeBoard.board
+		{
+			System.out.println("[확인] : freeBoard.board");
+			command = new BFreeBoardCommand();
+			command.execute(request, response);
+			
+			viewPage = "freeBoard.jsp";
+		}
+		else if (com.equals("/freeBoard_write.board")) // freeBoard_write.board
+		{
+			System.out.println("[확인] : freeBoard_write.board");
+			command = new BFreeBoardWriteCommand();
+			command.execute(request, response);
+			
+			String json_data = "{\"code\" : \"success\", \"desc\" : \"등록에 성공하였습니다.\"}";
+			sendJson(response, json_data);
+		}
+		else if (com.equals("/freeBoard_view.board")) // freeBoard_view.board
+		{
+			System.out.println("[확인] : freeBoard_view.board");
+			command = new BFreeBoardViewCommand();
+			command.execute(request, response);
+						
+			viewPage = "freeBoard_view.jsp";
+		}
+		else if (com.equals("/freeBoard_modify_view.board")) // freeBoard_modify_view.board
+		{
+			System.out.println("[확인] : freeBoard_modify_view.board");
+			command = new BFreeBoardViewCommand(); // 아이디에 대해서 DTO 가져오기
+			command.execute(request, response);
+					
+			viewPage = "freeBoard_modify_view.jsp";
+		} 
+		else if (com.equals("/freeBoard_modify.board")) // freeBoard_modify.board
+		{
+			System.out.println("[확인] : freeBoard_modify.board");
+			command = new BFreeBoardModifyCommand();
+			command.execute(request, response);
+			
+			command = new BFreeBoardViewCommand(); // 아이디에 대해서 DTO 가져오기
+			command.execute(request, response);
+			
+			String json_data = "{\"code\" : \"success\", \"desc\" : \"수정에 성공하였습니다.\"}";
+			sendJson(response, json_data);
+		} 
+		else if (com.equals("/freeBoard_delete.board")) // freeBoard_delete.board
+		{
+			System.out.println("[확인] : freeBoard_delete.board");
+			command = new BFreeBoardDeleteCommand();
+			command.execute(request, response);
+			
+			viewPage = "freeBoard.board?page=" + session.getAttribute("cpage");
+		} 
+		
+		
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);
 

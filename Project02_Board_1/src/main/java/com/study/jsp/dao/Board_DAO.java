@@ -53,7 +53,7 @@ public class Board_DAO
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		
-		// 첫 게시뭉
+		// 첫 게시물
 		int nStart = (curPage - 1) * listCount + 1;
 		// 마지막 게시물
 		int nEnd = (curPage - 1) * listCount + listCount;
@@ -132,7 +132,7 @@ public class Board_DAO
 		{
 			con = dataSource.getConnection();
 			
-			String query = "select count(*) as total from mvc_board";
+			String query = "select count(*) as total from board";
 			pstmt = con.prepareStatement(query);
 			resultSet = pstmt.executeQuery();
 			
@@ -339,6 +339,158 @@ public class Board_DAO
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void deleteNotice(String bId)
+	{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try
+		{
+			con = dataSource.getConnection();
+			
+			String query = "delete from board where bId = ?";
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, bId);
+			
+			int rn = pstmt.executeUpdate();
+			System.out.println("[Test] 삭제 성공");
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+				
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public ArrayList<Board_DTO> searchNotice(int curPage, String search_method, String search_content)
+	{
+
+		
+		ArrayList<Board_DTO> dtos = new ArrayList<Board_DTO>();
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		
+		// 첫 게시물
+		int nStart = (curPage - 1) * listCount + 1;
+		// 마지막 게시물
+		int nEnd = (curPage - 1) * listCount + listCount;		
+		
+		
+		try
+		{
+			con = dataSource.getConnection();
+			
+			if(search_method.equals("bTitle"))
+			{
+				String query = "select * "
+						+ "from ("
+						+ 		"select rownum num, A.* "
+						+ "		 from (select * from board where bTitle like ? order by bgroup desc, bstep asc ) A "
+						+ "		 where rownum <= ? "
+						+ ") B "
+						+ "where B.num >= ?";
+				
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, "%" + search_content + "%");
+				pstmt.setInt(2, nEnd);
+				pstmt.setInt(3, nStart);
+				resultSet = pstmt.executeQuery();				
+			}
+			else if(search_method.equals("bName"))
+			{
+				String query = "select * "
+						+ "from ("
+						+ 		"select rownum num, A.* "
+						+ "		 from (select * from board where bName like ? order by bgroup desc, bstep asc ) A "
+						+ "		 where rownum <= ? "
+						+ ") B "
+						+ "where B.num >= ?";
+				
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, "%" + search_content + "%");
+				pstmt.setInt(2, nEnd);
+				pstmt.setInt(3, nStart);
+				resultSet = pstmt.executeQuery();				
+			}
+			else if(search_method.equals("bContent"))
+			{
+				String query = "select * "
+						+ "from ("
+						+ 		"select rownum num, A.* "
+						+ "		 from (select * from board where bContent like ? order by bgroup desc, bstep asc ) A "
+						+ "		 where rownum <= ? "
+						+ ") B "
+						+ "where B.num >= ?";
+				
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, "%" + search_content + "%");
+				pstmt.setInt(2, nEnd);
+				pstmt.setInt(3, nStart);
+				resultSet = pstmt.executeQuery();					
+			}
+			
+			while(resultSet.next())
+			{
+				System.out.println("resultSet 입장");
+				
+				int bId = resultSet.getInt("bId");
+				String bName = resultSet.getString("bName");
+				String bTitle = resultSet.getString("bTitle");
+				String bContent = resultSet.getString("bContent");
+				Timestamp bDate = resultSet.getTimestamp("bDate");
+				int bHit = resultSet.getInt("bHit");
+				int bGroup = resultSet.getInt("bGroup");
+				int bStep = resultSet.getInt("bStep");
+				int bIndent = resultSet.getInt("bIndent");
+				String bFile = resultSet.getString("bFile");
+				int bLike = resultSet.getInt("bLike");
+				int bHate = resultSet.getInt("bHate");
+				
+				System.out.println("[Test] 검색 결과 bName :" + bName);
+				System.out.println("[Test] 검색 결과 bTitle :" + bTitle);
+				System.out.println("[Test] 검색 결과 bContent :" + bContent);
+				
+				Board_DTO dto = new Board_DTO(bId, bName, bTitle, bContent, bDate, bHit, bGroup, bStep, bIndent, bFile, bLike, bHate);
+				
+				dtos.add(dto);
+			}
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(resultSet != null) resultSet.close();
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return dtos;
 	}
 	
 }

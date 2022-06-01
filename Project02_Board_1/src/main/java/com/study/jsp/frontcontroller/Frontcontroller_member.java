@@ -16,6 +16,9 @@ import com.study.jsp.Mcommand.BCommand_Int;
 import com.study.jsp.Mcommand.IdCheckCommand;
 import com.study.jsp.Mcommand.JoinCommand;
 import com.study.jsp.Mcommand.LoginCommand;
+import com.study.jsp.Mcommand.MyInfoCommand;
+import com.study.jsp.Mcommand.MyInfoModifyCommand;
+import com.study.jsp.Mcommand.MyInfoModifyViewCommand;
 
 @WebServlet("*.member")
 public class Frontcontroller_member extends HttpServlet
@@ -122,6 +125,37 @@ public class Frontcontroller_member extends HttpServlet
 			sendJson(response, json_data);
 			
 			return;
+		}
+		else if(com.equals("/myInfo.member")) // myInfo.member
+		{
+			System.out.println("[확인] : myInfo.member");
+			
+			command = new MyInfoCommand();
+			command.execute(request, response);
+			
+			viewPage = "myInfo.jsp";
+		}
+		else if(com.equals("/myInfo_modify_view.member")) // myInfo_modify_view.member
+		{
+			System.out.println("[확인] : myInfo_modify_view.member");
+			
+			command = new MyInfoModifyViewCommand();
+			command.execute(request, response);
+			
+			viewPage = "myInfo_modify_view.jsp";
+		}
+		else if(com.equals("/myInfo_modify.member")) // myInfo_modify.member
+		{
+			System.out.println("[확인] : myInfo_modify.member");
+			
+			command = new MyInfoModifyCommand();
+			command.execute(request, response);
+			
+			String json_data = "{\"code\" : \"success\", \"desc\" : \"내정보가 수정되었습니다.\"}";
+			sendJson(response, json_data);
+			
+			return;
+			// viewPage = "myInfo_modify_view.jsp";
 		}
 		
 	

@@ -43,7 +43,7 @@
 	  <div class="row justify-content-center text-center">
 	    <div class="col-4">
 	      Main
-	      <button type="button" class="btn btn-secondary" onclick="javascript:window.location='notice_write.jsp'" >글 작성</button>
+	      <button type="button" class="btn btn-secondary" onclick="#" >내용</button>
 	    </div>
 	  </div>
 	</div>	

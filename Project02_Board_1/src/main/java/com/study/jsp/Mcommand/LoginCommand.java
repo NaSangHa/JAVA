@@ -22,26 +22,28 @@ public class LoginCommand implements BCommand
 		System.out.println("[폼에서 받아온] id : " + id);
 		System.out.println("[폼에서 받아온] pw : " + pw);
 		
-		
 		Member_DAO dao = Member_DAO.getInstance();
-		Member_DTO member_dto = dao.loginMember(id);
 		
-		System.out.println("[로그인 결과] : " + member_dto);
+		int loginResult = dao.pwCheck(id, pw);
 		
-		if(member_dto != null) 
+		if(loginResult == 1)
 		{
+			Member_DTO member_dto = dao.loginMember(id);
+			
 			HttpSession session = null;
 			session = request.getSession();
 			session.setAttribute("member_dto_id", member_dto.getId());
 			session.setAttribute("member_dto_name", member_dto.getName());
+			session.setAttribute("member_dto_grade", member_dto.getGrade());
 			
 			System.out.println("로그인에 성공하였습니다.");
 			response.sendRedirect("loginOk.member");
+			
 		}
 		else
 		{
 			System.out.println("로그인에 실패하였습니다.");
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("login.jsp");			
 		}
 		
 	}

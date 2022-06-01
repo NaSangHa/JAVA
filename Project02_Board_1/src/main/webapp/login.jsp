@@ -53,10 +53,7 @@ function submit_join() {
 		  <img src="./img/board.png" width="30" height="30" class="d-inline-block align-top justify-content-start" alt="">
 		  NOTICE BOARD
 		</a>
-		<div class="justify-content-end">
-			<button type="button" class="btn btn-outline-dark justify-content-end" onclick="javascript:window.location='login.jsp'">
-				로그인
-			</button>	  	  
+		<div class="justify-content-end">	  	  
 			<button type="button" class="btn btn-outline-dark justify-content-end" onclick="javascript:window.location='join.jsp'">
 				회원가입
 			</button>	  	  
@@ -65,16 +62,19 @@ function submit_join() {
 	
 	<ul class="nav justify-content-center">
 	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="#">공지사항</a>
+	    <a class="nav-link text-muted" ><h4>홈</h4></a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="#">자유게시판</a>
+	    <a class="nav-link text-muted" ><h4>공지사항</h4></a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="#">Menu3</a>
+	    <a class="nav-link text-muted" ><h4>자유게시판</h4></a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="#">Menu4</a>
+	    <a class="nav-link text-muted" ><h4>Menu3</h4></a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link text-muted" ><h4>Menu4</h4></a>
 	  </li>
 	</ul>
 	<hr>

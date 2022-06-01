@@ -22,6 +22,11 @@ public class BNoticeWriteCommand implements BCommand
 		String bContent = request.getParameter("bContent");
 		String bFile = request.getParameter("bFile");
 		
+		System.out.println("[Test] 공지사항 bName : " + bName);
+		System.out.println("[Test] 공지사항 bTitle : " + bTitle);
+		System.out.println("[Test] 공지사항 bContent : " + bContent);
+		System.out.println("[Test] 공지사항 bFile : " + bFile);
+		
 		
 		Board_DAO board_dao = Board_DAO.getInstance();
 		board_dao.insertNotice(bName, bTitle, bContent, bFile);
