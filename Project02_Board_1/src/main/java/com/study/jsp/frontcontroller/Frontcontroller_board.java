@@ -16,14 +16,17 @@ import com.study.jsp.Bcommand.BCommand_Int;
 import com.study.jsp.Bcommand.BFreeBoardCommand;
 import com.study.jsp.Bcommand.BFreeBoardDeleteCommand;
 import com.study.jsp.Bcommand.BFreeBoardModifyCommand;
+import com.study.jsp.Bcommand.BFreeBoardSearchCommand;
 import com.study.jsp.Bcommand.BFreeBoardViewCommand;
 import com.study.jsp.Bcommand.BFreeBoardWriteCommand;
+import com.study.jsp.Bcommand.BMainCommand;
+import com.study.jsp.Bcommand.BMyContentCommand;
 import com.study.jsp.Bcommand.BNoticeCommand;
 import com.study.jsp.Bcommand.BNoticeDeleteCommand;
-import com.study.jsp.Bcommand.BNoticeModifyCommand;
 import com.study.jsp.Bcommand.BNoticeSearchCommand;
 import com.study.jsp.Bcommand.BNoticeViewCommand;
-import com.study.jsp.Bcommand.BNoticeWriteCommand;
+import com.study.jsp.Bcommand.ShowCommentCommand;
+import com.study.jsp.Bcommand.ShowFCommentCommand;
 
 
 @WebServlet("*.board")
@@ -91,8 +94,20 @@ public class Frontcontroller_board extends HttpServlet
 			System.out.println("[확인] : notice_view.board");
 			command = new BNoticeViewCommand();
 			command.execute(request, response);
+			
+			command = new ShowCommentCommand();
+			command.execute(request, response);
 						
 			viewPage = "notice_view.jsp";
+		}
+		else if (com.equals("/notice_write.board")) // notice_write.board
+		{
+			System.out.println("[확인] : notice_write.board");
+			//command = new BNoticeWriteCommand();
+			//command.execute(request, response);
+			
+			String json_data = "{\"code\" : \"success\", \"desc\" : \"등록에 성공하였습니다.\"}";
+			sendJson(response, json_data);
 		} 
 		else if (com.equals("/notice_modify_view.board")) // notice_modify_view.board
 		{
@@ -105,8 +120,8 @@ public class Frontcontroller_board extends HttpServlet
 		else if (com.equals("/notice_modify.board")) // notice_modify.board
 		{
 			System.out.println("[확인] : notice_modify.board");
-			command = new BNoticeModifyCommand();
-			command.execute(request, response);
+			//command = new BNoticeModifyCommand();
+			//command.execute(request, response);
 			
 			command = new BNoticeViewCommand(); // 아이디에 대해서 DTO 가져오기
 			command.execute(request, response);
@@ -114,15 +129,7 @@ public class Frontcontroller_board extends HttpServlet
 			String json_data = "{\"code\" : \"success\", \"desc\" : \"수정에 성공하였습니다.\"}";
 			sendJson(response, json_data);
 		} 
-		else if (com.equals("/notice_write.board")) // notice_write.board
-		{
-			System.out.println("[확인] : notice_write.board");
-			command = new BNoticeWriteCommand();
-			command.execute(request, response);
-			
-			String json_data = "{\"code\" : \"success\", \"desc\" : \"등록에 성공하였습니다.\"}";
-			sendJson(response, json_data);
-		} 
+		
 		else if (com.equals("/notice_delete.board")) // notice_delete.board
 		{
 			System.out.println("[확인] : notice_delete.board");
@@ -137,7 +144,16 @@ public class Frontcontroller_board extends HttpServlet
 			command = new BNoticeSearchCommand();
 			command.execute(request, response);
 						
-			viewPage = "notice_searchResult.jsp";
+			//viewPage = "notice.jsp";
+			viewPage = "noticeSearch.jsp";
+		} 
+		else if (com.equals("/main.board")) // main.board
+		{
+			System.out.println("[확인] : main.board");
+			command = new BMainCommand();
+			command.execute(request, response);
+			
+			viewPage = "main.jsp";
 		} 
 		//-----------------------------------------------------------------------
 		else if (com.equals("/freeBoard.board")) // freeBoard.board
@@ -161,6 +177,9 @@ public class Frontcontroller_board extends HttpServlet
 		{
 			System.out.println("[확인] : freeBoard_view.board");
 			command = new BFreeBoardViewCommand();
+			command.execute(request, response);
+			
+			command = new ShowFCommentCommand();
 			command.execute(request, response);
 						
 			viewPage = "freeBoard_view.jsp";
@@ -193,6 +212,24 @@ public class Frontcontroller_board extends HttpServlet
 			
 			viewPage = "freeBoard.board?page=" + session.getAttribute("cpage");
 		} 
+		else if (com.equals("/search_freeBoard.board")) // search_freeBoard.board
+		{			
+			System.out.println("[확인] : search_freeBoard.board");
+			command = new BFreeBoardSearchCommand();
+			command.execute(request, response);
+						
+			//viewPage = "notice.jsp";
+			viewPage = "freeBoardSearch.jsp";
+		}
+		//---------------------------------------------------------------------
+		else if (com.equals("/myContent.board")) // myContent.board
+		{
+			System.out.println("[확인] : myContent.board");
+			command = new BMyContentCommand();
+			command.execute(request, response);
+			
+			viewPage = "myInfo_myContent.jsp";
+		}
 		
 		
 		

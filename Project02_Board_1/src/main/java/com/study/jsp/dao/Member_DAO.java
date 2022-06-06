@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -284,6 +285,518 @@ public class Member_DAO
 			} catch (Exception e2)
 			{
 				e2.printStackTrace();
+			}
+		}
+	}
+
+	public ArrayList<Member_DTO> allMembers()
+	{
+		ArrayList<Member_DTO> members = new ArrayList<Member_DTO>();
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+				
+		try
+		{
+			con = dataSource.getConnection();
+			
+			String query = "select * from members where grade != 5 order by joinDate desc";
+			
+			pstmt = con.prepareStatement(query);
+			resultSet = pstmt.executeQuery();
+			
+			while(resultSet.next())
+			{
+				String id = resultSet.getString("id");
+				String pw = resultSet.getString("pw");
+				String name = resultSet.getString("name");
+				String phone = resultSet.getString("phone");
+				String eMail = resultSet.getString("eMail");
+				String gender = resultSet.getString("gender");
+				int grade = resultSet.getInt("grade");
+				Timestamp joinDate = resultSet.getTimestamp("joinDate");
+				
+				Member_DTO member = new Member_DTO(id, pw, name, phone, eMail, gender, grade, joinDate);
+				
+				members.add(member);
+			}
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(resultSet != null) resultSet.close();
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return members;
+	}
+
+	public int memberCount()
+	{
+		int total = 0;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+				
+		try
+		{
+			con = dataSource.getConnection();
+			
+			String query = "select count(*) as total from members where id != 'admin'";
+			
+			pstmt = con.prepareStatement(query);
+			resultSet = pstmt.executeQuery();
+			
+			if(resultSet.next())
+			{
+				total = resultSet.getInt("total");
+				
+				System.out.println("[총 회원 수] : " + total);
+				
+				
+				return total;
+			}
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(resultSet != null) resultSet.close();
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return total;
+	}
+
+	public int bronzeMember()
+	{
+		int total = 0;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+				
+		try
+		{
+			con = dataSource.getConnection();
+			
+			String query = "select count(*) as total from members where grade = 1";
+			
+			pstmt = con.prepareStatement(query);
+			resultSet = pstmt.executeQuery();
+			
+			if(resultSet.next())
+			{
+				total = resultSet.getInt("total");
+
+				return total;
+			}
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(resultSet != null) resultSet.close();
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return total;
+	}
+	
+	public int silverMember()
+	{
+		int total = 0;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		
+		try
+		{
+			con = dataSource.getConnection();
+			
+			String query = "select count(*) as total from members where grade = 2";
+			
+			pstmt = con.prepareStatement(query);
+			resultSet = pstmt.executeQuery();
+			
+			if(resultSet.next())
+			{
+				total = resultSet.getInt("total");
+				
+				return total;
+			}
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(resultSet != null) resultSet.close();
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return total;
+	}
+	
+	public int goldMember()
+	{
+		int total = 0;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		
+		try
+		{
+			con = dataSource.getConnection();
+			
+			String query = "select count(*) as total from members where grade = 3";
+			
+			pstmt = con.prepareStatement(query);
+			resultSet = pstmt.executeQuery();
+			
+			if(resultSet.next())
+			{
+				total = resultSet.getInt("total");
+				
+				return total;
+			}
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(resultSet != null) resultSet.close();
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return total;
+	}
+
+	public ArrayList<Member_DTO> getBronzeMember()
+	{
+		ArrayList<Member_DTO> members = new ArrayList<Member_DTO>();
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+				
+		try
+		{
+			con = dataSource.getConnection();
+			
+			String query = "select * from members where grade = 1 order by joinDate desc";
+			
+			pstmt = con.prepareStatement(query);
+			resultSet = pstmt.executeQuery();
+			
+			while(resultSet.next())
+			{
+				String id = resultSet.getString("id");
+				String pw = resultSet.getString("pw");
+				String name = resultSet.getString("name");
+				String phone = resultSet.getString("phone");
+				String eMail = resultSet.getString("eMail");
+				String gender = resultSet.getString("gender");
+				int grade = resultSet.getInt("grade");
+				Timestamp joinDate = resultSet.getTimestamp("joinDate");
+				
+				Member_DTO member = new Member_DTO(id, pw, name, phone, eMail, gender, grade, joinDate);
+				
+				members.add(member);
+			}
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(resultSet != null) resultSet.close();
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return members;
+	}
+	
+	public ArrayList<Member_DTO> getSilverMember()
+	{
+		ArrayList<Member_DTO> members = new ArrayList<Member_DTO>();
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+				
+		try
+		{
+			con = dataSource.getConnection();
+			
+			String query = "select * from members where grade = 2 order by joinDate desc";
+			
+			pstmt = con.prepareStatement(query);
+			resultSet = pstmt.executeQuery();
+			
+			while(resultSet.next())
+			{
+				String id = resultSet.getString("id");
+				String pw = resultSet.getString("pw");
+				String name = resultSet.getString("name");
+				String phone = resultSet.getString("phone");
+				String eMail = resultSet.getString("eMail");
+				String gender = resultSet.getString("gender");
+				int grade = resultSet.getInt("grade");
+				Timestamp joinDate = resultSet.getTimestamp("joinDate");
+				
+				Member_DTO member = new Member_DTO(id, pw, name, phone, eMail, gender, grade, joinDate);
+				
+				members.add(member);
+			}
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(resultSet != null) resultSet.close();
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return members;
+	}
+	
+	public ArrayList<Member_DTO> getGoldMember()
+	{
+		ArrayList<Member_DTO> members = new ArrayList<Member_DTO>();
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+				
+		try
+		{
+			con = dataSource.getConnection();
+			
+			String query = "select * from members where grade = 3 order by joinDate desc";
+			
+			pstmt = con.prepareStatement(query);
+			resultSet = pstmt.executeQuery();
+			
+			while(resultSet.next())
+			{
+				String id = resultSet.getString("id");
+				String pw = resultSet.getString("pw");
+				String name = resultSet.getString("name");
+				String phone = resultSet.getString("phone");
+				String eMail = resultSet.getString("eMail");
+				String gender = resultSet.getString("gender");
+				int grade = resultSet.getInt("grade");
+				Timestamp joinDate = resultSet.getTimestamp("joinDate");
+				
+				Member_DTO member = new Member_DTO(id, pw, name, phone, eMail, gender, grade, joinDate);
+				
+				members.add(member);
+			}
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(resultSet != null) resultSet.close();
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return members;
+	}
+
+	public void gradeUp(String id)
+	{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+				
+		try
+		{
+			con = dataSource.getConnection();
+			
+			String query = "update members set grade = grade+1 where id = ?";
+			
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+			
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void gradeDown(String id)
+	{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try
+		{
+			con = dataSource.getConnection();
+			
+			String query = "update members set grade = grade-1 where id = ?";
+			
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+			
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void deleteMember(String id)
+	{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try
+		{
+			con = dataSource.getConnection();
+			
+			String query = "delete from members where id = ?";
+			
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+			
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
 			}
 		}
 	}

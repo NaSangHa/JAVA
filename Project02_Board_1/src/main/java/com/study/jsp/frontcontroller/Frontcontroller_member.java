@@ -16,6 +16,8 @@ import com.study.jsp.Mcommand.BCommand_Int;
 import com.study.jsp.Mcommand.IdCheckCommand;
 import com.study.jsp.Mcommand.JoinCommand;
 import com.study.jsp.Mcommand.LoginCommand;
+import com.study.jsp.Mcommand.ManageMemberCommand;
+import com.study.jsp.Mcommand.ManageUpdateInfoCommand;
 import com.study.jsp.Mcommand.MyInfoCommand;
 import com.study.jsp.Mcommand.MyInfoModifyCommand;
 import com.study.jsp.Mcommand.MyInfoModifyViewCommand;
@@ -87,11 +89,24 @@ public class Frontcontroller_member extends HttpServlet
 		else if(com.equals("/login.member")) // login.member
 		{
 			System.out.println("[확인] : login.member");
-			command = new LoginCommand();
-			command.execute(request, response);
+			command_Int = new LoginCommand();
+			int login_result = command_Int.execute(request, response);
 			
-			return;
 			
+			if (login_result == 1)
+			{
+				viewPage = "loginOk.member";
+			}
+			else if(login_result == 2)
+			{
+				viewPage = "main.board";
+			}
+			else
+			{
+				String json_data = "{\"code\" : \"fail\", \"desc\" : \"비밀번호가 일치하지 않습니다.\"}";
+				sendJson(response, json_data);
+				return;
+			}			
 			//viewPage = "login.jsp";
 		}
 		else if(com.equals("/loginOk.member")) // login.member
@@ -103,7 +118,7 @@ public class Frontcontroller_member extends HttpServlet
 			
 			return;
 		}
-		else if(com.equals("/idCheck.member")) // login.member
+		else if(com.equals("/idCheck.member")) // idCheck.member
 		{
 			System.out.println("[확인] : idCheck.member");
 			
@@ -156,6 +171,24 @@ public class Frontcontroller_member extends HttpServlet
 			
 			return;
 			// viewPage = "myInfo_modify_view.jsp";
+		}
+		else if(com.equals("/mMode_member.member")) // mMode_member.member
+		{
+			System.out.println("[확인] : mMode_member.member");
+			
+			command = new ManageMemberCommand();
+			command.execute(request, response);
+				
+			viewPage = "mMode_member.jsp";
+		}
+		else if(com.equals("/mMode_updateMemberInfo.member")) // mMode_updateMemberInfo.member
+		{
+			System.out.println("[확인] : mMode_updateMemberInfo.member");
+			
+			command = new ManageUpdateInfoCommand();
+			command.execute(request, response);
+			
+			viewPage = "mMode_updateMember.jsp";
 		}
 		
 	

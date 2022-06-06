@@ -10,10 +10,10 @@ import javax.servlet.http.HttpSession;
 import com.study.jsp.dao.Member_DAO;
 import com.study.jsp.dto.Member_DTO;
 
-public class LoginCommand implements BCommand
+public class LoginCommand implements BCommand_Int
 {
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) 
+	public int execute(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException
 	{
 		String id = request.getParameter("id");
@@ -21,6 +21,18 @@ public class LoginCommand implements BCommand
 		
 		System.out.println("[폼에서 받아온] id : " + id);
 		System.out.println("[폼에서 받아온] pw : " + pw);
+		
+		if(id.equals("guest") && pw.equals("0"))
+		{
+			System.out.println("네이버로 로그인 되었습니다.");
+			
+			HttpSession session = null;
+			session = request.getSession();
+			session.setAttribute("member_dto_id", id);
+			
+			return 2;
+		}
+		
 		
 		Member_DAO dao = Member_DAO.getInstance();
 		
@@ -37,16 +49,20 @@ public class LoginCommand implements BCommand
 			session.setAttribute("member_dto_grade", member_dto.getGrade());
 			
 			System.out.println("로그인에 성공하였습니다.");
-			response.sendRedirect("loginOk.member");
+			//response.sendRedirect("loginOk.member");
 			
+			return 1;
 		}
 		else
 		{
 			System.out.println("로그인에 실패하였습니다.");
-			response.sendRedirect("login.jsp");			
+			//response.sendRedirect("login.jsp");
+			
+			return 0;
 		}
 		
 	}
 
 
 }
+

@@ -34,6 +34,7 @@ public class BNoticeCommand implements BCommand
 		Board_DAO board_dao = Board_DAO.getInstance();
 		BPageInfo pinfo = board_dao.articlePage(nPage);
 		request.setAttribute("page", pinfo);		
+		
 		nPage = pinfo.getCurPage();	// 현재 페이지
 		
 		// System.out.println("[test] nPage: " + nPage);

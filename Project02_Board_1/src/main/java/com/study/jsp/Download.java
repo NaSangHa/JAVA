@@ -28,7 +28,7 @@ public class Download extends HttpServlet
 		String fileName = request.getParameter("filename");
 		
 		// ② 경로 가져오기
-		String saveDir = this.getServletContext().getRealPath("/fileUpload/");
+		String saveDir = this.getServletContext().getRealPath("/file");
 		File file = new File(saveDir + "/" + fileName);
 		System.out.println("파일명 : " + fileName);
 		

@@ -7,10 +7,67 @@
 <!-- BootStrap Css -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
-<title>회원가입</title>
+<title></title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Hahmlet:wght@300&family=Jua&family=Noto+Sans+KR:wght@300&family=Noto+Serif+KR:wght@200&display=swap" rel="stylesheet">
+<style>
+    #id_correct{
+        color: green;
+    }
+    #id_error, #pw_error{
+        color: red;
+    }
+</style>
 <script src="http://code.jquery.com/jquery.js"></script>
 <script>
+$(document).ready(function()
+        {
+	        
+			$('#id').focusout(function id_check() {
+				
+	            if ($('#id').val().length == 0) 
+	            {
+	                $('#id_correct').text("");
+	                $('#id_error').text("아이디를 입력해주세요");
+	                return;
+	            }
+	            var queryString = $('#join_form').serialize();
+	            $.ajax({
+	                url : '/Project02_Board_1/idCheck.member',
+	                type : 'POST',
+	                data : queryString,
+	                dataType : 'text',
+	                success : function(json) {
+	                    var result = JSON.parse(json);
+	        
+	                    if (result.code == "success") {
+	                        $('#id_error').text("");
+	                        $('#id_correct').text("사용가능한 아이디 입니다.");
+	                        $('#pw').focus();
+	                    } else {
+	                        $('#id_correct').text("");
+	                        $('#id_error').text("이미 사용중인 아이디 입니다.");
+	                        $('#id').focus();
+	                    }
+	                }
+	            });
+	        })
+	        
+            $('#pw_check').focusout(function id_check() {
+                if ($('#pw').val() != $('#pw_check').val()) 
+                {
+                    $('#pw_error').text("비밀번호가 일치하지 않습니다.");
+                    return;
+                }
+                if ($('#pw').val() == $('#pw_check').val()) 
+                {
+                    $('#pw_error').text("");
+                    return;
+                }
+            })
+        });
+        
 function form_check() {
 	if ($('#id').val().length == 0) {
 		alert("아이디는 필수사항입니다.");
@@ -54,7 +111,7 @@ function submit_join() {
 
 			if (result.code == "success") {
 				alert(result.desc);
-				window.location.replace("login.member");
+				window.location.replace("login.jsp");
 			} else {
 				alert(result.desc);
 			}
@@ -62,32 +119,13 @@ function submit_join() {
 	});
 }
 
-$('#id').focusout(
-        function id_check() {
-        	alert("아이디 체크에 들어옴")
-            var queryString = $('#join_form').serialize();
-            $.ajax({
-                url : '/Project02_Board_1/idCheck.member',
-                type : 'POST',
-                data : queryString,
-                dataType : 'text',
-                success : function(json) {
-                    var result = JSON.parse(json);
-        
-                    if (result.code == "success") {
-                        $('#id_error').text("");
-                        $('#id_correct').text("사용가능한 아이디 입니다.");
-                        $('#pw').focus();
-                    } else {
-                        $('#id_correct').text("");
-                        $('#id_error').text("이미 사용중인 아이디 입니다.");
-                        $('#id').focus();
-                    }
-                }
-            });
-        })
-</script>
 
+</script>
+<style>
+	*{
+		font-family: 'Hahmlet';
+	}
+</style>
 </head>
 <body>
 	<nav class="navbar navbar-light">
@@ -104,19 +142,16 @@ $('#id').focusout(
 	
 	<ul class="nav justify-content-center">
 	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="main.jsp"><h4>홈</h4></a>
+	    <a class="nav-link text-muted" ><h4>홈</h4></a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="#"><h4>공지사항</h4></a>
+	    <a class="nav-link text-muted" ><h4>공지사항</h4></a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="#"><h4>자유게시판</h4></a>
+	    <a class="nav-link text-muted" ><h4>자유게시판</h4></a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="#"><h4>Menu3</h4></a>
-	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="#"><h4>Menu4</h4></a>
+	    <a class="nav-link text-muted" "><h4>채팅방</h4></a>
 	  </li>
 	</ul>
 	<hr>
@@ -140,19 +175,20 @@ $('#id').focusout(
           <div class="form-group col-8">
             <label for="id">아이디</label> 
             <input type="text" class="form-control" id="id" name="id" placeholder="아이디">
+            <span id="id_correct"></span><span id="id_error"></span>
           </div>
         </div>
         <div class="row justify-content-center">
           <div class="form-group col-8">
             <label for="pw">비밀번호</label>
-            <input type="text" class="form-control" id="pw" name="pw" placeholder="비밀번호">
+            <input type="password" class="form-control" id="pw" name="pw" placeholder="비밀번호">
           </div>
         </div>
         <div class="row justify-content-center">
           <div class="form-group col-8">
             <label for="pw_check">비밀번호 확인</label>
-            <input type="text" class="form-control" id="pw_check" name="pw_check" placeholder="비밀번호 확인">
-            <div id="pw_correct"></div> <div id="pw_error"></div>            
+            <input type="password" class="form-control" id="pw_check" name="pw_check" placeholder="비밀번호 확인">
+            <span id="pw_error"></span>            
           </div>
         </div>
         <div class="row justify-content-center">

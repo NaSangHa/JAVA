@@ -7,13 +7,32 @@
 <!-- BootStrap Css -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<title>로그인</title>
+<title></title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Hahmlet:wght@300&family=Jua&family=Noto+Sans+KR:wght@300&family=Noto+Serif+KR:wght@200&display=swap" rel="stylesheet">
 <script src="http://code.jquery.com/jquery.js"></script>
+<script>
+$(document).ready(function()
+		{
+
+			if("<%= session.getAttribute("member_dto_name") %>" != '관리자')
+			{
+				$('#manage').attr('style', "display:none;");	
+			}
+		}); 
+
 </script>
+<style>
+	*{
+		font-family: 'Hahmlet';
+	}
+
+</style>
 </head>
 <body>
 	<nav class="navbar navbar-light">
-		<a class="navbar-brand" href="main.jsp">
+		<a class="navbar-brand" href="main.board">
 		  <img src="./img/board.png" width="30" height="30" class="d-inline-block align-top justify-content-start" alt="">
 		  NOTICE BOARD
 		</a>
@@ -21,14 +40,15 @@
 			<img src="./img/profile.png" width="30" height="30" class="d-inline-block justify-content-end align-items-center" alt="">&nbsp;	
   	  		<div class="d-inline-block justify-content-end align-items-center">
 	  	  		<%= session.getAttribute("member_dto_id") %> 님 반갑습니다. &nbsp;
-	  	  		<button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:window.location='logout.jsp'">로그아웃</button>
+	  	  		<button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:window.location='logout.jsp'">로그아웃</button>&nbsp;
+	  	  		<button type="button" id="manage" class="btn btn-success btn-sm" onclick="javascript:window.location='mMode.manage'">관리자모드</button>&nbsp;
   	  		</div>
 		</div>  
 	</nav>
 	
 	<ul class="nav justify-content-center">
 	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="main.jsp"><h4>홈</h4></a>
+	    <a class="nav-link text-muted" href="main.board"><h4>홈</h4></a>
 	  </li>
 	  <li class="nav-item">
 	    <a class="nav-link text-muted" href="notice.board"><h4>공지사항</h4></a>
@@ -37,10 +57,7 @@
 	    <a class="nav-link text-muted" href="freeBoard.board?page=1"><h4>자유게시판</h4></a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="#"><h4>Menu3</h4></a>
-	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link text-muted" href="#"><h4>Menu4</h4></a>
+	    <a class="nav-link text-muted" href="chatRoom.chat"><h4>채팅방</h4></a>
 	  </li>
 	</ul>
 	<hr>
@@ -129,9 +146,10 @@
 	  </div>
 	  <div class="row justify-content-center">
 	    <div class="col-4 text-left">
-	    	<button type="button" class="btn btn-secondary" onclick="javascript:window.location='main.jsp'" >메인 화면</button>
+	    	<button type="button" class="btn btn-secondary" onclick="javascript:window.location='main.board'" >메인 화면</button>
 	    </div>
 	    <div class="col-4 text-right">
+	    	<button type="button" class="btn btn-secondary" onclick="javascript:window.location='myContent.board?id=${myInfo.getId() }'" >내가 쓴 글</button> &nbsp;
 	    	<button type="button" class="btn btn-secondary" onclick="javascript:window.location='myInfo_modify_view.member?id=${myInfo.getId() }'" >정보 수정</button>
 	    </div>
 	  </div>	  

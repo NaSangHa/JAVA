@@ -17,7 +17,6 @@ public class BNoticeSearchCommand implements BCommand
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		
 		int nPage = 1;
 		try
 		{
@@ -28,35 +27,36 @@ public class BNoticeSearchCommand implements BCommand
 		{
 			e.printStackTrace();
 		}
-		
+				
 		Board_DAO board_dao = Board_DAO.getInstance();
 		
 		String search_method = request.getParameter("search_method");
 		String search_content = request.getParameter("search_content");
-
 		
-		BPageInfo pinfo = board_dao.articlePage(nPage);
+		System.out.println("search_method" + search_method);
+		System.out.println("search_content" + search_content);
+		
+		
+		BPageInfo pinfo = board_dao.searchArticlePage(search_method, search_content, nPage);
+		//BPageInfo pinfo = board_dao.articlePage(nPage);
+		
+
 		request.setAttribute("page", pinfo);		
 		nPage = pinfo.getCurPage();	// 현재 페이지
 		
-		
+		ArrayList<Board_DTO> search_dtos = board_dao.searchNotice(nPage, search_method, search_content);
+		request.setAttribute("list", search_dtos);
+
 		HttpSession session = null;
 		session = request.getSession();
 		session.setAttribute("cpage", nPage);
+		session.setAttribute("search_method", search_method);
+		session.setAttribute("search_content", search_content);
 		
-		ArrayList<Board_DTO> search_dtos = board_dao.searchNotice(nPage, search_method, search_content);
-		request.setAttribute("slist", search_dtos);
 		
-		for(Board_DTO e: search_dtos)
-		{
-			System.out.println("검색결과 search_dtos : " + e.getbId());
-			System.out.println("검색결과 search_dtos : " + e.getbName());
-			System.out.println("검색결과 search_dtos : " + e.getbTitle());
-			System.out.println("검색결과 search_dtos : " + e.getbContent());
-		}
+		// 검색된 게시글 모음	
+
 		
-		System.out.println("for문 끝!");
-			
 	
 	}
 
